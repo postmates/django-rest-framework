@@ -758,32 +758,6 @@ class ModelSerializer(Serializer):
 
                 ret[accessor_name] = field
 
-        # Add the `read_only` flag to any fields that have bee specified
-        # in the `read_only_fields` option
-        for field_name in self.opts.read_only_fields:
-            assert field_name not in self.base_fields.keys(), (
-                "field '%s' on serializer '%s' specified in "
-                "`read_only_fields`, but also added "
-                "as an explicit field.  Remove it from `read_only_fields`." %
-                (field_name, self.__class__.__name__))
-            assert field_name in ret, (
-                "Non-existant field '%s' specified in `read_only_fields` "
-                "on serializer '%s'." %
-                (field_name, self.__class__.__name__))
-            ret[field_name].read_only = True
-
-        for field_name in self.opts.write_only_fields:
-            assert field_name not in self.base_fields.keys(), (
-                "field '%s' on serializer '%s' specified in "
-                "`write_only_fields`, but also added "
-                "as an explicit field.  Remove it from `write_only_fields`." %
-                (field_name, self.__class__.__name__))
-            assert field_name in ret, (
-                "Non-existant field '%s' specified in `write_only_fields` "
-                "on serializer '%s'." %
-                (field_name, self.__class__.__name__))
-            ret[field_name].write_only = True            
-
         return ret
 
     def get_pk_field(self, model_field):
